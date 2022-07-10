@@ -8,13 +8,23 @@ The one thing to note is that under no circumstance should the work and assets f
 
 # Setting Up
 
+## Cloning
+
 No matter what you do, you'll need to clone this repo to work with it.
 
-Cloning is really simple, just copy the repo's url and clone using it.
+Cloning is really simple if you don't have 2FA enabled, just copy the repo's url and clone using it.
 
 ![Cloning Image](https://i.imgur.com/2aM7Ey0.png)
 
+If you *do* have 2FA enabled, you'll need to generate a Personal Access Token (PAT) and use that to clone the repo.
+
+[Follow the guide here](https://stackoverflow.com/a/70320541).
+
+## Git LFS
+
 After you've cloned the repo, the important part is to set up Git LFS in your local machine. [Download the installer and install it.](https://git-lfs.github.com/)
+
+If you already have Git LFS on your machine, you probably already initialized Git LFS so you can skip this part.
 
 Now you'll need to initialize Git LFS. If you're using SourceTree as your Git GUI, click on the ``Terminal`` button and type ``git lfs install``.
 
