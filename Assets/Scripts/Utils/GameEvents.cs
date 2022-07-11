@@ -1,10 +1,10 @@
 namespace GameEvents
 {
-    public class ExampleEvent : EventManager.BaseEvent
+    public class BasicEvent : EventManager.BaseEvent
     {
         public string ID;
 
-        public ExampleEvent(string id)
+        public BasicEvent(string id)
         {
             ID = id;
         }
