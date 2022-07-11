@@ -885,11 +885,11 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 2
-  cloudProjectId: 
+  cloudProjectId: 47c9f153-fcbd-4cbb-b15f-11576bde3dcd
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: UnityPlayground
+  organizationId: moonlightplayground
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
