@@ -1,4 +1,4 @@
-# Welcome to the Playground!
+# Welcome to the Unity Playground!
 
 This repo was made to act as a playground to experiment with things in Unity.
 
