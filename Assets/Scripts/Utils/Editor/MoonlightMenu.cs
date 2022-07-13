@@ -1,40 +1,57 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEditor.SceneManagement;
+using UnityEditor.ShortcutManagement;
 
 [ExecuteInEditMode]
 public class MoonlightMenu
 {
-    [MenuItem("Moonlight/Navmesh/Enable Navmesh Objects")]
-    private static void EnableNavmesh()
+    [MenuItem("Moonlight/Navmesh/Show Navmesh Renderers _F11")]
+    private static void ShowNavmesh()
     {
-        foreach (GameObject go in GetObjectsInNavmeshLayer())
-        {
-            go.SetActive(true);
-        }
+        ToggleNavMesh(true);
     }
 
-    [MenuItem("Moonlight/Navmesh/Disable Navmesh Objects")]
-    private static void DisableNavmesh()
+    [MenuItem("Moonlight/Navmesh/Hide Navmesh Renderers _F12")]
+    private static void HideNavmesh()
     {
-        foreach (GameObject go in GetObjectsInNavmeshLayer())
-        {
-            go.SetActive(false);
-        }
+        ToggleNavMesh(false);
     }
 
-    private static List<GameObject> GetObjectsInNavmeshLayer()
+    private static void ToggleNavMesh(bool enabled)
     {
-        var gameObjects = new List<GameObject>();
-
-        foreach (var go in Resources.FindObjectsOfTypeAll<GameObject>())
+        var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+        if (prefabStage != null)
         {
-            if (go.hideFlags == HideFlags.None && go.layer == (int)Moonlight.Layers.NavmeshGeneration)
+            var rootObjects = prefabStage.scene.GetRootGameObjects();
+            foreach (var gameObject in rootObjects)
             {
-                gameObjects.Add(go);
+                var colliders = gameObject.transform.GetComponentsInChildren<MeshCollider>();
+                foreach (var collider in colliders)
+                {
+                    if (collider.CompareTag("Navmesh"))
+                    {
+                        var meshRenderer = collider.GetComponent<MeshRenderer>();
+                        if (meshRenderer != null)
+                        {
+                            meshRenderer.enabled = enabled;
+                        }
+                    }
+                }
             }
         }
-
-        return gameObjects;
+        else
+        {
+            GameObject[] navmeshObjects = GameObject.FindGameObjectsWithTag("Navmesh");
+            foreach (GameObject navObject in navmeshObjects)
+            {
+                if (navObject.GetComponent<MeshRenderer>() is MeshRenderer mesh)
+                {
+                    mesh.enabled = enabled;
+                }
+            }
+        }
     }
 }
+#endif
