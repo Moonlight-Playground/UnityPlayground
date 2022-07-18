@@ -51,15 +51,21 @@ public class Timer : MonoBehaviour
 
         // Optional
         Loop = loop;
+        LoopFor = loopFor;
         DestroyOnComplete = destroyOnComplete;
         _tickCallback = tickCallback;
-        _tickDelegate = tickDelegate;
         TickValue = tickValue;
 
-        if (_tickDelegate != null)
+        if (tickDelegate != null)
         {
+            if (_tickDelegate != null)
+            {
+                _tickDelegate -= OnTickDelegate;
+            }
+
+            _tickDelegate = tickDelegate;
             Type = TimerType.Manual;
-            tickDelegate += OnTickDelegate;
+            _tickDelegate += OnTickDelegate;
         }
         else
         {
@@ -119,16 +125,27 @@ public class Timer : MonoBehaviour
         }
     }
 
-    protected void OnDestroy()
-    {
-        TimerManager.Instance?.DestroyTimer(ID);
-    }
-
     public void UpdateDuration(float newDuration) => Duration = newDuration;
     public void ResetTimer() => TimeLeft = Duration;
     public void SetLoopFor(int newLoopFor) => LoopFor = newLoopFor;
+    public void SetOnComplete(Action newCallback) => _onComplete = newCallback;
+    public void SetTickCallback(Action newCallback) => _tickCallback = newCallback;
 
     private void OnTickDelegate() => Tick();
+
+    /// <param name="newDelegate">The new tick delegate used to tick the timer, the timer must already be a manual ticking timer</param>
+    public void SetTickDelegate(Action newDelegate)
+    {
+        if (_tickDelegate == null)
+        {
+            Debug.LogError($"Attempted to update tick delegate when timer is not manually ticking", this);
+            return;
+        }
+
+        _tickDelegate -= OnTickDelegate;
+        _tickDelegate = newDelegate;
+        _tickDelegate += OnTickDelegate;
+    }
 
     /// <param name="sameFrameRestart">Should timer restart if it was completed on the same frame?</param>
     public void RestartTimer(bool sameFrameRestart = true)

@@ -5,21 +5,11 @@ using Sirenix.OdinInspector;
 
 public class TimerManager : PersistentSingleton<TimerManager>
 {
-    [SerializeField, Required]
-    private Timer _timerPrefab;
+    [SerializeField, Required] private Timer _timerPrefab;
     private Dictionary<string, Timer> _timers = new Dictionary<string, Timer>();
 
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
-        foreach (Timer timer in _timers.Values)
-        {
-            DestroyTimer(timer.ID);
-        }
-    }
-
     /// <summary>
-    /// Creates a timer based on the various parameters
+    /// Creates a flexible timer with callbacks
     /// </summary>
     /// <param name="id">Unique ID of the timer</param>
     /// <param name="duration">Time or value until complete</param>
@@ -41,7 +31,25 @@ public class TimerManager : PersistentSingleton<TimerManager>
     {
         if (_timers.ContainsKey(ID))
         {
-            Debug.LogError($"Timer ID '{ID}' already exists", this);
+            Debug.LogError($"Attempted to create timer '{ID}' which already exists", this);
+            return null;
+        }
+
+        if (duration <= 0f)
+        {
+            Debug.LogError($"Attempted to create timer '{ID}' with invalid duration '{duration}'", this);
+            return null;
+        }
+
+        if (loopFor < 0)
+        {
+            Debug.LogError($"Attempted to create timer '{ID}' with invalid loopFor '{loopFor}'", this);
+            return null;
+        }
+
+        if (tickValue <= 0f)
+        {
+            Debug.LogError($"Attempted to create timer '{ID}' with invalid tickValue '{tickValue}'", this);
             return null;
         }
 
