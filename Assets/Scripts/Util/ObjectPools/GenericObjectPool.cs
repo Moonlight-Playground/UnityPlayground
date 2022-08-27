@@ -121,11 +121,11 @@ public abstract class GenericObjectPool<T> : MonoBehaviour where T : Object
     public virtual void ReleaseObject(T poolObject)
     {
         DeactivateObject(poolObject);
-        _inactiveObjects.Push(poolObject);
 
         int indexOf = _activeObjects.IndexOf(poolObject);
         if (indexOf >= 0)
         {
+            _inactiveObjects.Push(poolObject);
             _activeObjects[indexOf] = _activeObjects[_activeObjects.Count - 1];
             _activeObjects.RemoveAt(_activeObjects.Count - 1);
         }
