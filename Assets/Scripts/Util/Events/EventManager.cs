@@ -1,6 +1,26 @@
 using System;
 using System.Collections.Generic;
 
+public static class EventExtensions
+{
+    public static void AddEventListener<T>(this ICollection<EventManager.EventListenerHandle> self, EventManager.EventDelegate<T> e, string id = "")
+        where T : EventManager.BaseEvent => self.Add(EventManager.AddListener(e, id));
+    public static bool RemoveEventListener<T>(this ICollection<EventManager.EventListenerHandle> self, EventManager.EventDelegate<T> e)
+        where T : EventManager.BaseEvent
+    {
+        var listener = EventManager.FindListener(e);
+        return listener != null && self.Remove(listener);
+    }
+    public static void RemoveEventListeners(this ICollection<EventManager.EventListenerHandle> self)
+    {
+        foreach (var h in self)
+        {
+            EventManager.RemoveListener(h);
+        }
+        self.Clear();
+    }
+}
+
 public static class EventManager
 {
     public class BaseEvent { }
@@ -100,6 +120,11 @@ public static class EventManager
             var removed = RemoveListener(internalDelegate.del, internalDelegate.type, id);
             delegateLookup.Remove(del);
         }
+    }
+
+    public static EventListenerHandle FindListener<T>(EventDelegate<T> del) where T : BaseEvent
+    {
+        return delegateLookup.TryGetValue(del, out var internalDelegate) ? internalDelegate : null;
     }
 
     public static void Raise(BaseEvent e, string id = "", object target = null)
