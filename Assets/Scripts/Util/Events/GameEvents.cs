@@ -9,4 +9,16 @@ namespace GameEvents
             ID = id;
         }
     }
+
+    public class PlayerSpawnEvent : EventManager.BaseEvent
+    {
+        public UnityEngine.InputSystem.PlayerInput PlayerInput;
+
+        public PlayerSpawnEvent(UnityEngine.InputSystem.PlayerInput playerInput)
+        {
+            PlayerInput = playerInput;
+        }
+    }
+
+    public class PlayerDespawnEvent : EventManager.BaseEvent { }
 }
