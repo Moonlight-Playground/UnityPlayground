@@ -9,7 +9,10 @@ public class ColorPalette : SerializedScriptableObject
     public class Palette
     {
         [SerializeField, ColorPalette()]
-        private List<Color> _colors = new List<Color>();
+        private List<Color> _colors = new List<Color>()
+        {
+            new Color()
+        };
 
         public Color GetColor(int colorIndex)
         {
@@ -24,7 +27,10 @@ public class ColorPalette : SerializedScriptableObject
     }
 
     [SerializeField, DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.ExpandedFoldout, KeyLabel = "Palette ID")]
-    private Dictionary<string, Palette> _palettes = new Dictionary<string, Palette>();
+    private Dictionary<string, Palette> _palettes = new Dictionary<string, Palette>()
+    {
+        { "Default", new Palette() }
+    };
 
     public Palette GetPalette(string paletteID)
     {
