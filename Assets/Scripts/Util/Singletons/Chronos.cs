@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Chronos : PersistentSingleton<Chronos>
+public partial class Chronos : PersistentSingleton<Chronos>
 {
 
 }

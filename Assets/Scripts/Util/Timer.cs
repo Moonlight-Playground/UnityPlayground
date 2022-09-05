@@ -210,7 +210,7 @@ public class Timer : MonoBehaviour
     {
         if (DestroyOnComplete)
         {
-            TimerManager.Instance.DestroyTimer(ID);
+            Chronos.Instance.DestroyTimer(ID);
         }
         else
         {

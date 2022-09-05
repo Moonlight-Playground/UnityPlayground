@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 
-public class TimerManager : PersistentSingleton<TimerManager>
+public partial class Chronos
 {
     [SerializeField, Required] private Timer _timerPrefab;
     private Dictionary<string, Timer> _timers = new Dictionary<string, Timer>();
