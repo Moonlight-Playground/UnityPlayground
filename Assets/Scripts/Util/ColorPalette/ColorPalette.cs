@@ -14,6 +14,11 @@ public class ColorPalette : SerializedScriptableObject
             new Color()
         };
 
+        public bool HasColor(int colorIndex)
+        {
+            return colorIndex >= _colors.Count;
+        }
+
         public Color GetColor(int colorIndex)
         {
             if (colorIndex >= _colors.Count)
@@ -31,6 +36,26 @@ public class ColorPalette : SerializedScriptableObject
     {
         { "Default", new Palette() }
     };
+
+    public bool HasPalette(string paletteID)
+    {
+        if (_palettes.ContainsKey(paletteID))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool HasColor(string paletteID, int colorIndex)
+    {
+        if (HasPalette(paletteID))
+        {
+            return _palettes[paletteID].HasColor(colorIndex);
+        }
+
+        return false;
+    }
 
     public Palette GetPalette(string paletteID)
     {
